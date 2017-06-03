@@ -17,12 +17,21 @@ namespace RunnerRL
         {
             InitializeComponent();
             graphics = this.CreateGraphics();
-            testRectangle();
+            // testRectangle();
         }
 
         public void testRectangle()
         {
-            Rectangle r = new Rectangle(0, this.Bottom - 10, this.Width, 10); 
+            Rectangle display = this.DisplayRectangle;
+            int top = display.Bottom - 30;
+            int left = display.Left;
+            Rectangle r = new Rectangle(left, top, display.Width, 20);
+            graphics.FillRectangle(Brushes.Black, r);
+        }
+
+        public void testRectangle(object sender, EventArgs e)
+        {
+            testRectangle();
         }
 
     }
