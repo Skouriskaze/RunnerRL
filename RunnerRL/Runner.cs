@@ -13,11 +13,18 @@ namespace RunnerRL
     public partial class Runner : Form
     {
         private Graphics graphics;
+        private RunnerGame game;
         public Runner()
         {
             InitializeComponent();
             graphics = this.CreateGraphics();
-            // testRectangle();
+            game = new RunnerGame();
+        }
+
+        public void loopGame(object sender, EventArgs e)
+        {
+            // Update
+            game.update();
         }
 
         public void testRectangle()

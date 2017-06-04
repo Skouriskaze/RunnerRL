@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
+            this.timerLoop = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // button1
@@ -41,6 +43,11 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.testRectangle);
             // 
+            // timerLoop
+            // 
+            this.timerLoop.Interval = 33;
+            this.timerLoop.Tick += new System.EventHandler(this.loopGame);
+            // 
             // Runner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -50,6 +57,7 @@
             this.Name = "Runner";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Runner";
+            this.Load += new System.EventHandler(this.testRectangle);
             this.ResumeLayout(false);
 
         }
@@ -57,6 +65,7 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timerLoop;
     }
 }
 
