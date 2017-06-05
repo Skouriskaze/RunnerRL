@@ -57,7 +57,7 @@
             this.Name = "Runner";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Runner";
-            this.Load += new System.EventHandler(this.testRectangle);
+            this.Load += new System.EventHandler(this.onLoad);
             this.ResumeLayout(false);
 
         }

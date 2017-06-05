@@ -92,8 +92,8 @@ namespace RunnerRL
             if (currentX > c.Patches.ElementAt(0).Length)
             {
                 // TODO: Create a Chunk function to do these
-                currentX -= c.Patches.ElementAt(0).Length;
-                c.Patches.RemoveFirst();
+                currentX -= c.removePatch();
+                c.addPatchToFull();
             }
 
             if (currentY <= 0 && c.floorAtPosition(currentX))
@@ -159,37 +159,28 @@ namespace RunnerRL
     class Chunk
     {
         public const float LENGTH = 50f;
-        public const float MIN_LENGTH = 1f;
-        public const float MAX_LENGTH = 5f;
+        public const float MIN_LENGTH = 3f;
+        public const float MAX_LENGTH = 10f;
 
         private LinkedList<Patch> patches;
         private float currLength;
+
+        private Random rand;
 
 
         public Chunk()
         {
             patches = new LinkedList<Patch>();
             currLength = 0;
+            rand = new Random();
 
-            Random rand = new Random();
-
-            bool isFloor = true;
-            while (currLength < LENGTH)
-            {
-                float next = (float)((MAX_LENGTH - MIN_LENGTH) * rand.NextDouble() + MIN_LENGTH);
-                Patch nextPatch = new Patch(currLength, next, isFloor);
-                patches.AddLast(nextPatch);
-                isFloor = !isFloor;
-                currLength += next;
-            }
-
+            addPatch(10f); // TODO: Maybe make this random
         }
 
 
         public bool floorAtPosition(float pos)
         {
             float currPos = 0;
-            // patches.First.Value.Length
             LinkedListNode<Patch> currPatchNode = patches.First;
             bool isFloor = true;
             while (currPos < pos)
@@ -201,6 +192,46 @@ namespace RunnerRL
                 currPatchNode = currPatchNode.Next;
             }
             return isFloor;
+        }
+
+        public void addPatchToFull()
+        {
+            while (currLength < LENGTH)
+            {
+                addRandomPatch();
+            }
+        }
+
+        public void addPatch(float length)
+        {
+            bool isFloor;
+            if (patches.Count > 0)
+            {
+                isFloor = !patches.Last.Value.Floor;
+            }
+            else
+            {
+                isFloor = true;
+            }
+
+            Patch nextPatch = new Patch(currLength, length, isFloor);
+            patches.AddLast(nextPatch);
+            currLength += length;
+        }
+
+        public void addRandomPatch()
+        {
+            float next = (float)((MAX_LENGTH - MIN_LENGTH) * rand.NextDouble() + MIN_LENGTH);
+            addPatch(next);
+        }
+
+        public float removePatch()
+        {
+            float length = patches.First.Value.Length;
+            patches.RemoveFirst();
+            currLength -= length;
+
+            return length;
         }
 
         public LinkedList<Patch> Patches
